@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{title}}</span>
+    <button mat-button (click)="add()">Add Todo Item<mat-icon>add</mat-icon></button>
+    <button mat-button (click)="filterFunction()">Filter</button>
+    Name: <input matInput (input)="this.name=$event.target.value" />
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div *ngFor="let todo of this.todos">
+  <div *ngIf="(filter || !todo.done)&& (!todo.assignedTo || todo.assignedTo.includes(this.name))">
+    <mat-card>
+      <p>ID: {{todo.id}}</p>
+      <p [hidden]="!todo.assignedTo">Person: {{todo.assignedTo}}</p>
+      <p>Description: {{todo.description}}</p>
+      <p>Due To: {{getDate(todo.dueTo)}}</p>
+      <p>Done: {{todo.done?true:false}}</p>
+      <mat-action-row>
+        <button mat-button matTooltip="Delete" (click)="delete(todo.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-button matTooltip="Edit" (click)="edit(todo)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-action-row>
+    </mat-card>
+    <br>
+  </div>
+</div>
+<div *ngIf="this.todos.length==0">
+  <mat-card>Keine Todos</mat-card>
+</div>
